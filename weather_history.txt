@@ -1,0 +1,116 @@
+
+2025-01-12 00:32:10.973635
+       City: Ступино 
+Temperature: -1.08°С
+    Weather: Облачно
+    Sunrise: 08:45
+     Sunset: 16:25
+
+2025-01-12 00:32:22.605137
+       City: Ступино 
+Temperature: -1.08°С
+    Weather: Облачно
+    Sunrise: 08:45
+     Sunset: 16:25
+
+2025-01-12 00:59:54.633846
+       City: Ступино 
+Temperature: -1.08°С
+    Weather: Облачно
+    Sunrise: 08:45
+     Sunset: 16:25
+
+2025-01-12 01:28:40.481810
+       City: Ступино 
+Temperature: -1.1°С
+    Weather: Облачно
+    Sunrise: 08:45
+     Sunset: 16:25
+
+2025-01-12 15:49:41.243092
+       City: Ступино 
+Temperature: -0.9°С
+    Weather: Облачно
+    Sunrise: 08:45
+     Sunset: 16:25
+
+2025-01-12 17:56:07.503409
+       City: Ступино 
+Temperature: -1.6°С
+    Weather: Облачно
+    Sunrise: 08:45
+     Sunset: 16:25
+
+2025-01-12 17:56:25.004988
+       City: Ступино 
+Temperature: -1.6°С
+    Weather: Облачно
+    Sunrise: 08:45
+     Sunset: 16:25
+
+2025-01-12 23:24:57.196375
+       City: Ступино 
+Temperature: -2.1°С
+    Weather: Облачно
+    Sunrise: 08:45
+     Sunset: 16:25
+
+2025-01-13 09:51:08.572871
+       City: Ступино 
+--------------------
+Temperature: -2.7°С
+    Weather: Облачно
+    Sunrise: 08:44
+     Sunset: 16:27
+
+2025-01-14 08:32:25.735918
+       City: Ступино 
+--------------------
+Temperature: -5.3°С
+    Weather: Облачно
+    Sunrise: 08:43
+     Sunset: 16:29
+
+2025-01-15 22:09:01.078115
+       City: Ступино 
+--------------------
+Temperature: -3.4°С
+    Weather: Облачно
+    Sunrise: 08:42
+     Sunset: 16:31
+
+2025-01-15 22:14:47.461142
+       City: Ступино 
+--------------------
+Temperature: -3.4°С
+    Weather: Облачно
+    Sunrise: 08:42
+     Sunset: 16:31
+
+2025-01-15 22:17:25.887854
+       City: Ступино 
+--------------------
+Temperature: -3.4°С
+   Humidity: 95%
+    Weather: Облачно
+    Sunrise: 08:42
+     Sunset: 16:31
+
+2025-01-15 22:17:50.707613
+       City: Ступино 
+--------------------
+Temperature: -3.4°С
+   Humidity: 95 %
+    Weather: Облачно
+    Sunrise: 08:42
+     Sunset: 16:31
+
+2025-01-15 22:20:15.344619
+       City: Ступино 
+--------------------
+Temperature: -3.4°С
+   Humidity: 95 %
+    Weather: Облачно
+    Sunrise: 08:42
+     Sunset: 16:31
+
