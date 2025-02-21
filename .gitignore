@@ -2,3 +2,7 @@ weather.bat
 __pycache__
 .mypy_cache
 weather — ярлык.lnk
+tokens.py
+weather.bat
+*.lnk
+weather_history.txt

@@ -4,12 +4,14 @@ import urllib.request
 from datetime import datetime
 from enum import Enum
 from typing import Literal, NamedTuple
-
+import logging
 from config import OPEN_WEATHER_URL
 from coordinates import Coordinates, get_coordinates
-from exceptions import ApiWeatherException
+from exceptions import ApiOpenWeatherException
 
 Celsius = float
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(message)s")
+logger = logging.getLogger(__name__)
 
 
 class WeatherType(Enum):
@@ -25,6 +27,8 @@ class WeatherType(Enum):
 
 
 class Weather(NamedTuple):
+    """Like data class"""
+
     temperature: Celsius
     weather_type: WeatherType
     humidity: int
@@ -37,7 +41,7 @@ def _parse_wether_response(answer):
     try:
         weather_as_dict = json.loads(answer)
     except json.JSONDecodeError:
-        raise ApiWeatherException
+        raise ApiOpenWeatherException
     if weather_as_dict["cod"] == 200:
         # pprint(answer.json())
         return Weather(
@@ -49,7 +53,8 @@ def _parse_wether_response(answer):
             city=weather_as_dict["name"],
         )
     else:
-        raise ApiWeatherException
+        logger.error(weather_as_dict.get('message'))
+        raise ApiOpenWeatherException
 
 
 def _parse_sun_time(
@@ -83,29 +88,35 @@ def _get_weather_service_response(coordinates: Coordinates) -> str:
     url = OPEN_WEATHER_URL.format(
         latitude=coordinates.latitude, longtitude=coordinates.longitude
     )
-
     try:
         with urllib.request.urlopen(url) as response:
             # response = request.get(url)
             data_from_api = response.read().decode()
 
-    except urllib.error.URLError:
-        raise ApiWeatherException
+    except urllib.error.URLError as e:
+        logger.error(e)
+        raise ApiOpenWeatherException
 
     if response.code == 200:
         return data_from_api
     else:
-        raise ApiWeatherException
+        raise ApiOpenWeatherException
 
 
-def get_weather(coordinates: Coordinates) -> Weather | None:
-    """get from weather service API and return this one"""
-    weather_service_response = _get_weather_service_response(
-        coordinates=coordinates
-    )
-    print(weather_service_response)
-    weather = _parse_wether_response(weather_service_response)
-    return weather
+def get_weather(coordinates: Coordinates | None) -> Weather | None:
+    """get from weather service API and return data"""
+    if coordinates:
+        try:
+            weather_service_response = _get_weather_service_response(
+                coordinates=coordinates
+            )
+            # print(weather_service_response)
+            weather = _parse_wether_response(weather_service_response)
+            return weather
+        except:
+            raise ApiOpenWeatherException
+    else:
+        raise ApiOpenWeatherException
 
 
 if __name__ == "__main__":

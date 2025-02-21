@@ -1,6 +1,6 @@
 import datetime
 
-from weather_api_service import Weather
+from weather_openwetherapi_service import Weather
 from weather_formater import format_weather
 
 
