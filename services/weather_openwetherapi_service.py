@@ -4,8 +4,7 @@ import urllib.error
 import urllib.request
 from datetime import datetime
 from typing import Literal
-
-from coordinates import Coordinates, get_coordinates
+from services.coordinates import Coordinates, get_coordinates
 from services.exceptions import ApiOpenWeatherException
 from weather_models import Weather, WeatherType
 
@@ -109,6 +108,6 @@ def get_weather(url: str, coordinates: Coordinates | None) -> Weather | None:
 
 
 if __name__ == "__main__":
-    from config import  OPEN_WEATHER_URL
+    from services.config import  OPEN_WEATHER_URL
     print(get_weather("", get_coordinates()))
     # print(WeatherType.CLEAR.name)

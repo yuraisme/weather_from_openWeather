@@ -11,8 +11,8 @@ from services.exceptions import (
 )
 from weather_models import WEATHER_CODES, Celsius, Weather, WeatherType
 
-from config import WEATHER_URL_ASTRONOMY, WEATHERAPI_URL_WEATHER
-from coordinates import Coordinates, get_coordinates
+from services.config import WEATHER_URL_ASTRONOMY, WEATHERAPI_URL_WEATHER
+from services.coordinates import Coordinates, get_coordinates
 
 
 class Weather_response(NamedTuple):
