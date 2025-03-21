@@ -5,10 +5,14 @@ import urllib.request
 from datetime import datetime
 from typing import Literal, NamedTuple
 
+from services.exceptions import (
+    ApiOpenWeatherException,
+    ApiWeatherApiException,
+)
+from weather_models import WEATHER_CODES, Celsius, Weather, WeatherType
+
 from config import WEATHER_URL_ASTRONOMY, WEATHERAPI_URL_WEATHER
 from coordinates import Coordinates, get_coordinates
-from services.exceptions import ApiOpenWeatherException, ApiWeatherApiException
-from weather_models import WEATHER_CODES, Celsius, Weather, WeatherType
 
 
 class Weather_response(NamedTuple):

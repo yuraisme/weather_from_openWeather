@@ -5,7 +5,6 @@ import urllib.request
 from datetime import datetime
 from typing import Literal
 
-from config import OPEN_WEATHER_URL
 from coordinates import Coordinates, get_coordinates
 from services.exceptions import ApiOpenWeatherException
 from weather_models import Weather, WeatherType
@@ -69,13 +68,16 @@ def _parse_humidity(weather_as_dict: dict) -> int | None:
         logging.error("No correct 'humidity' in weather data")
 
 
-def _get_weather_service_response(coordinates: Coordinates) -> str:
+def _get_weather_service_response(url: str, coordinates: Coordinates) -> str:
     """Request direct ot Weather API"""
-    url = OPEN_WEATHER_URL.format(
-        latitude=coordinates.latitude, longtitude=coordinates.longitude
-    )
+
     try:
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(
+            url.format(
+                latitude=coordinates.latitude,
+                longtitude=coordinates.longitude,
+            )
+        ) as response:
             # response = request.get(url)
             data_from_api = response.read().decode()
 
@@ -89,12 +91,12 @@ def _get_weather_service_response(coordinates: Coordinates) -> str:
         raise ApiOpenWeatherException
 
 
-def get_weather(coordinates: Coordinates | None) -> Weather | None:
+def get_weather(url: str, coordinates: Coordinates | None) -> Weather | None:
     """get from weather service API and return data"""
     if coordinates:
         try:
             weather_service_response = _get_weather_service_response(
-                coordinates=coordinates
+                url, coordinates=coordinates
             )
             # print(weather_service_response)
             weather = _parse_wether_response(weather_service_response)
@@ -107,5 +109,6 @@ def get_weather(coordinates: Coordinates | None) -> Weather | None:
 
 
 if __name__ == "__main__":
-    print(get_weather(get_coordinates()))
+    from config import  OPEN_WEATHER_URL
+    print(get_weather("", get_coordinates()))
     # print(WeatherType.CLEAR.name)

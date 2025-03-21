@@ -8,12 +8,12 @@ from services.print import print_weather
 from weather_history_storage import PlaneTextStorage, weather_save
 from services.weather_openwetherapi_service import get_weather as open_get_weather
 from services.weather_weatherapi_service import get_weather as weatherapi_get_weather
-
+from config import OPEN_WEATHER_URL
 
 def main_open():
     coordinates = get_coordinates()
     try:
-        weather = open_get_weather(coordinates=coordinates)
+        weather = open_get_weather( OPEN_WEATHER_URL, coordinates=coordinates)
         print_weather(weather)
         # for history
         weather_save(
