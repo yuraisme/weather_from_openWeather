@@ -1,7 +1,7 @@
 import datetime
 
-from weather_openwetherapi_service import Weather
-from weather_formater import format_weather
+from services.weather_openwetherapi_service import Weather
+from services.weather_formater import format_weather
 
 
 class SaveWeatherStorage:

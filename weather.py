@@ -3,11 +3,11 @@ import os
 from pathlib import Path
 
 from coordinates import get_coordinates
-from exceptions import ApiOpenWeatherException
-from print import print_weather
+from services.exceptions import ApiOpenWeatherException
+from services.print import print_weather
 from weather_history_storage import PlaneTextStorage, weather_save
-from weather_openwetherapi_service import get_weather as open_get_weather
-from weather_weatherapi_service import get_weather as weatherapi_get_weather
+from services.weather_openwetherapi_service import get_weather as open_get_weather
+from services.weather_weatherapi_service import get_weather as weatherapi_get_weather
 
 
 def main_open():

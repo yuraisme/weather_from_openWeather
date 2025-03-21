@@ -1,40 +1,20 @@
 import json
+import logging
 import urllib.error
 import urllib.request
 from datetime import datetime
-from enum import Enum
-from typing import Literal, NamedTuple
-import logging
+from typing import Literal
+
 from config import OPEN_WEATHER_URL
 from coordinates import Coordinates, get_coordinates
-from exceptions import ApiOpenWeatherException
+from services.exceptions import ApiOpenWeatherException
+from weather_models import Weather, WeatherType
 
 Celsius = float
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(message)s")
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s %(levelname)s %(message)s"
+)
 logger = logging.getLogger(__name__)
-
-
-class WeatherType(Enum):
-    """Enumirate of weather type from service"""
-
-    THUNDERSTORM = "Гроза"
-    DRIZZLE = "Изморозь"
-    RAIN = "Дожжь"
-    SNOW = "Снег"
-    CLEAR = "Ясно"
-    CLOUDS = "Облачно"
-    FOG = "Туман"
-
-
-class Weather(NamedTuple):
-    """Like data class"""
-
-    temperature: Celsius
-    weather_type: WeatherType
-    humidity: int
-    sunrise: datetime
-    sunset: datetime
-    city: str
 
 
 def _parse_wether_response(answer):
@@ -45,15 +25,15 @@ def _parse_wether_response(answer):
     if weather_as_dict["cod"] == 200:
         # pprint(answer.json())
         return Weather(
-            temperature=_parse_temp(weather_as_dict),
-            humidity=_parse_humidity(weather_as_dict),
+            temperature=_parse_temp(weather_as_dict) or 0,
+            humidity=_parse_humidity(weather_as_dict) or 0,
             weather_type=_parse_weather_type(weather_as_dict),
             sunrise=_parse_sun_time(weather_as_dict, "sunrise"),
             sunset=_parse_sun_time(weather_as_dict, "sunset"),
             city=weather_as_dict["name"],
         )
     else:
-        logger.error(weather_as_dict.get('message'))
+        logger.error(weather_as_dict.get("message"))
         raise ApiOpenWeatherException
 
 
@@ -75,12 +55,18 @@ def _parse_weather_type(weather_as_dict: dict):
     return tp[0]
 
 
-def _parse_temp(weather_as_dict) -> Celsius:
-    return weather_as_dict["main"]["temp"]
+def _parse_temp(weather_as_dict: dict) -> Celsius | None:
+    try:
+        return weather_as_dict["main"]["temp"]
+    except KeyError:
+        logging.error("No correct 'temp' in weather data")
 
 
-def _parse_humidity(weather_as_dict) -> int:
-    return weather_as_dict["main"]["humidity"]
+def _parse_humidity(weather_as_dict: dict) -> int | None:
+    try:
+        return weather_as_dict["main"]["humidity"]
+    except KeyError:
+        logging.error("No correct 'humidity' in weather data")
 
 
 def _get_weather_service_response(coordinates: Coordinates) -> str:
@@ -113,7 +99,8 @@ def get_weather(coordinates: Coordinates | None) -> Weather | None:
             # print(weather_service_response)
             weather = _parse_wether_response(weather_service_response)
             return weather
-        except:
+        except Exception as e:
+            logging.error(f"{e}")
             raise ApiOpenWeatherException
     else:
         raise ApiOpenWeatherException

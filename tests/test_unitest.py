@@ -3,7 +3,7 @@ import unittest
 from datetime import datetime
 from unittest.mock import MagicMock, patch
 
-from weather_openwetherapi_service import (
+from services.weather_openwetherapi_service import (
     ApiOpenWeatherException,
     Coordinates,
     Weather,

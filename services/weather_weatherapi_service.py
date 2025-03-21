@@ -1,89 +1,14 @@
 import json
+import logging
 import urllib.error
 import urllib.request
 from datetime import datetime
-from enum import Enum
-from logging import Logger
-from typing import Dict, Literal, NamedTuple
+from typing import Literal, NamedTuple
 
 from config import WEATHER_URL_ASTRONOMY, WEATHERAPI_URL_WEATHER
 from coordinates import Coordinates, get_coordinates
-from exceptions import ApiOpenWeatherException, ApiWeatherApiException
-
-Celsius = float
-WEATHER_CODES = {
-    1000: "Ясно",
-    1003: "Облачно",
-    1006: "Облачно",
-    1009: "Облачно",
-    1030: "Туман",
-    1063: "Облачно",
-    1066: "Облачно",
-    1069: "Облачно",
-    1072: "Облачно",
-    1087: "Гроза",
-    1114: "Снег",
-    1117: "Дожжь",
-    1135: "Туман",
-    1147: "Туман",
-    1150: "Дожжь",
-    1153: "Дожжь",
-    1168: "Дожжь",
-    1171: "Дожжь",
-    1180: "Дожжь",
-    1183: "Дожжь",
-    1186: "Дожжь",
-    1189: "Дожжь",
-    1192: "Дожжь",
-    1195: "Дожжь",
-    1198: "Дожжь",
-    1201: "Дожжь",
-    1204: "Дожжь",
-    1207: "Дожжь",
-    1210: "Снег",
-    1213: "Снег",
-    1216: "Снег",
-    1219: "Снег",
-    1222: "Снег",
-    1225: "Снег",
-    1237: "Снег",
-    1240: "Дожжь",
-    1243: "Дожжь",
-    1246: "Дожжь",
-    1249: "Дожжь",
-    1252: "Дожжь",
-    1255: "Снег",
-    1258: "Снег",
-    1261: "Дожжь",
-    1264: "Дожжь",
-    1273: "Дожжь",
-    1276: "Дожжь",
-    1279: "Снег",
-    1282: "Снег",
-}
-
-
-class WeatherType(Enum):
-    """Enumirate of weather type from service"""
-
-    THUNDERSTORM = "Гроза"
-    DRIZZLE = "Изморозь"
-    RAIN = "Дожжь"
-    SNOW = "Снег"
-    CLEAR = "Ясно"
-    CLOUDS = "Облачно"
-    FOG = "Туман"
-
-
-class Weather(NamedTuple):
-    """Like data class"""
-
-    temperature: Celsius
-    weather_type: WeatherType
-    humidity: int
-    sunrise: datetime
-    sunset: datetime
-    city: str
+from services.exceptions import ApiOpenWeatherException, ApiWeatherApiException
+from weather_models import WEATHER_CODES, Celsius, Weather, WeatherType
 
 
 class Weather_response(NamedTuple):
@@ -195,7 +120,7 @@ def _get_weather_service_response(
         raise ApiOpenWeatherException
 
 
-def get_weather(coordinates: Coordinates) -> Weather:
+def get_weather(coordinates: Coordinates) -> Weather | None:
     """get from weather service API and return data"""
     if coordinates:
         try:
@@ -211,7 +136,8 @@ def get_weather(coordinates: Coordinates) -> Weather:
                 sunset_service_response,
             )
             return weather
-        except:
+        except Exception as e:
+            logging.error(f"{e}")
             raise ApiWeatherApiException
     else:
         raise ApiWeatherApiException

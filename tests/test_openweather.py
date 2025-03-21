@@ -1,7 +1,7 @@
 import pytest
 from coordinates import Coordinates, get_coordinates
-from weather_openwetherapi_service import Weather, WeatherType, get_weather
-from exceptions import ApiOpenWeatherException
+from services.weather_openwetherapi_service import Weather, WeatherType, get_weather
+from services.exceptions import ApiOpenWeatherException
 
 
 def test_coordinates():

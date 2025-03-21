@@ -1,6 +1,6 @@
 import datetime
 
-from weather_openwetherapi_service import Weather, WeatherType
+from services.weather_openwetherapi_service import Weather, WeatherType
 
 
 def format_weather(weather: Weather):
